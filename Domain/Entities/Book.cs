@@ -1,10 +1,16 @@
-﻿using NetDevPack.Domain;
+﻿using Domain.Validation.Books;
+using FluentValidation.Results;
 
-namespace Domain.Entities
+namespace Domain.Entities;
+
+public class Book : BaseEntity, IAggregateRoot
 {
-    public class Book : Entity, IAggregateRoot
+    public string Author { get; set; }
+    public string Title { get; set; }
+
+    public bool IsValid()
     {
-        public string Author { get; set; }
-        public string Title { get; set; }
+        ValidationResult = new BookCreateValidation().Validate(this);
+        return ValidationResult.IsValid;
     }
 }

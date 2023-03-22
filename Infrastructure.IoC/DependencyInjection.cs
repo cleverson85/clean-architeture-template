@@ -10,6 +10,7 @@ public static class DependencyInjection
         DependencyInjectionContext.Register(services);
         DependencyInjectionRepository.Register(services);
         DependencyInjectionService.Register(services);
+        DependencyInjectionValidator.Register(services);
 
         services.AddAutoMapper(typeof(DomainToViewModelMappingProfile), typeof(ViewModelToDomainMappingProfile));
     }

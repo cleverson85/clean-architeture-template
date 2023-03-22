@@ -1,7 +1,7 @@
 ﻿using Domain.Entities;
+using Domain.Interfaces.Base;
+using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
-using NetDevPack.Data;
-using NetDevPack.Messaging;
 using System.Reflection;
 
 namespace Infrastructure.Data.Contexts;
@@ -17,16 +17,15 @@ public class Context : DbContext, IUnitOfWork
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Ignore<Event>();
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
         base.OnModelCreating(modelBuilder);
     }
 
-    public async Task<bool> Commit()
+    public async Task<ValidationResult> Commit()
     {
-        var success = await SaveChangesAsync() > 0;
-        return success;
+        await SaveChangesAsync();
+        return new ValidationResult();
     }
 }
 

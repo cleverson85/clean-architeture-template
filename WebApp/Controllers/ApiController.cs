@@ -5,13 +5,13 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace WebApp.Controllers
 {
-    [Route("api")]
+    [Route("api/[controller]")]
     [ApiController]
     public abstract class ApiController : ControllerBase
     {
         private readonly ICollection<string> _errors = new List<string>();
 
-        protected ActionResult CustomResponse(object result = null)
+        protected ActionResult CustomResponse(object? result = null)
         {
             if (IsOperationValid())
             {

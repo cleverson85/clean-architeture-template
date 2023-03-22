@@ -14,21 +14,15 @@ public class BookController : ApiController
         _bookService = bookService;
     }
 
-    [HttpPost("save-book")]
+    [HttpPost("[action]")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BookViewModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> CreateBook([FromBody] BookViewModel book, CancellationToken cancellationToken)
+    public async Task<IActionResult> CreateBook([FromBody] BookViewModel bookViewModel, CancellationToken cancellationToken)
     {
-        if (!ModelState.IsValid)
-        {
-            return CustomResponse(ModelState);
-        }
-
-        await _bookService.AddBook(book, cancellationToken);
-        return CustomResponse(book);
+        return !ModelState.IsValid ? CustomResponse(ModelState) : CustomResponse(await _bookService.AddBook(bookViewModel, cancellationToken));
     }
 
-    [HttpGet("list-books")]
+    [HttpGet("[action]")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<BookViewModel>))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetBooks(CancellationToken cancellationToken)

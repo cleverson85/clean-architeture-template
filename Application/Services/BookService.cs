@@ -4,16 +4,15 @@ using AutoMapper;
 using Domain.Entities;
 using Domain.Interfaces.Repository;
 using FluentValidation.Results;
-using NetDevPack.Messaging;
 
 namespace Application.Services;
 
-public class BookService : CommandHandler, IBookService
+public class BookService : IBookService
 {
     private readonly IMapper _mapper;
     private readonly IBookRepository _bookRepository;
 
-    public BookService(IMapper mapper, IBookRepository bookRepository) 
+    public BookService(IMapper mapper, IBookRepository bookRepository)
     {
         _bookRepository = bookRepository;
         _mapper = mapper;
@@ -22,9 +21,15 @@ public class BookService : CommandHandler, IBookService
     public async Task<ValidationResult> AddBook(BookViewModel entity, CancellationToken cancellationToken)
     {
         var book = _mapper.Map<Book>(entity);
+
+        if (!book.IsValid())
+        {
+            return book.ValidationResult;
+        }
+
         await _bookRepository.SaveAsync(book, cancellationToken);
 
-        return await Commit(_bookRepository.UnitOfWork);
+        return await _bookRepository.UnitOfWork.Commit();
     }
 
     public async Task<ValidationResult> DeleteBook(BookViewModel entity, CancellationToken cancellationToken)
@@ -32,7 +37,7 @@ public class BookService : CommandHandler, IBookService
         var book = _mapper.Map<Book>(entity);
         await _bookRepository.DeleteAsync(book, cancellationToken);
 
-        return await Commit(_bookRepository.UnitOfWork);
+        return await _bookRepository.UnitOfWork.Commit();
     }
 
     public async Task<BookViewModel> GetBook(Guid id, CancellationToken cancellationToken)
@@ -52,6 +57,6 @@ public class BookService : CommandHandler, IBookService
         var book = _mapper.Map<Book>(entity);
         await _bookRepository.UpdateAsync(book, cancellationToken);
 
-        return await Commit(_bookRepository.UnitOfWork);
+        return await _bookRepository.UnitOfWork.Commit();
     }
 }
