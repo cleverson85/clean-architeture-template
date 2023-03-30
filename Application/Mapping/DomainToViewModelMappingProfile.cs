@@ -1,4 +1,4 @@
-﻿using Application.ViewModels;
+﻿using Application.ViewModels.Book;
 using AutoMapper;
 using Domain.Entities;
 
@@ -8,6 +8,7 @@ public class DomainToViewModelMappingProfile : Profile
 {
     public DomainToViewModelMappingProfile() 
     {
-        CreateMap<Book, BookViewModel>();
+        CreateMap<Book, BookCreateViewModel>();
+        CreateMap<Book, BookUpdateViewModel>();
     }
 }

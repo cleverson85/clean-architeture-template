@@ -22,10 +22,9 @@ public class Context : DbContext, IUnitOfWork
         base.OnModelCreating(modelBuilder);
     }
 
-    public async Task<ValidationResult> Commit()
+    public async Task Commit()
     {
         await SaveChangesAsync();
-        return new ValidationResult();
     }
 }
 

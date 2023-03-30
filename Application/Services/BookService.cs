@@ -1,5 +1,5 @@
 ﻿using Application.Interfaces;
-using Application.ViewModels;
+using Application.ViewModels.Book;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Interfaces.Repository;
@@ -18,45 +18,51 @@ public class BookService : IBookService
         _mapper = mapper;
     }
 
-    public async Task<ValidationResult> AddBook(BookViewModel entity, CancellationToken cancellationToken)
+    public async Task<ValidationResult> AddBook(BookCreateViewModel entity, CancellationToken cancellationToken)
     {
-        var book = _mapper.Map<Book>(entity);
-
-        if (!book.IsValid())
+        if (!entity.IsValid())
         {
-            return book.ValidationResult;
+            return entity.ValidationResult;
         }
 
-        await _bookRepository.SaveAsync(book, cancellationToken);
+        var book = _mapper.Map<Book>(entity);
 
-        return await _bookRepository.UnitOfWork.Commit();
+        await _bookRepository.SaveAsync(book, cancellationToken);
+        await _bookRepository.UnitOfWork.Commit();
+
+        return entity.ValidationResult;
     }
 
-    public async Task<ValidationResult> DeleteBook(BookViewModel entity, CancellationToken cancellationToken)
+    public async Task DeleteBook(Guid id, CancellationToken cancellationToken)
     {
-        var book = _mapper.Map<Book>(entity);
-        await _bookRepository.DeleteAsync(book, cancellationToken);
-
-        return await _bookRepository.UnitOfWork.Commit();
+        await _bookRepository.DeleteAsync(id, cancellationToken);
+        await _bookRepository.UnitOfWork.Commit();
     }
 
     public async Task<BookViewModel> GetBook(Guid id, CancellationToken cancellationToken)
     {
         var book = await _bookRepository.GetAsync(id, cancellationToken);
-        return _mapper.Map<BookViewModel>(book);
+        return _mapper.Map<BookCreateViewModel>(book);
     }
 
     public async Task<IEnumerable<BookViewModel>> GetBooks(CancellationToken cancellationToken)
     {
         var books = await _bookRepository.GetAllAsync(cancellationToken);
-        return _mapper.Map<IEnumerable<BookViewModel>>(books);
+        return _mapper.Map<IEnumerable<BookCreateViewModel>>(books);
     }
 
-    public async Task<ValidationResult> UpdateBook(BookViewModel entity, CancellationToken cancellationToken)
+    public async Task<ValidationResult> UpdateBook(BookUpdateViewModel entity, CancellationToken cancellationToken)
     {
-        var book = _mapper.Map<Book>(entity);
-        await _bookRepository.UpdateAsync(book, cancellationToken);
+        if (!entity.IsValid())
+        {
+            return entity.ValidationResult;
+        }
 
-        return await _bookRepository.UnitOfWork.Commit();
+        var book = _mapper.Map<Book>(entity);
+
+        await _bookRepository.UpdateAsync(book, cancellationToken);
+        await _bookRepository.UnitOfWork.Commit();
+
+        return entity.ValidationResult;
     }
 }

@@ -19,9 +19,11 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
 
     public IUnitOfWork UnitOfWork => _context;
 
-    public async Task DeleteAsync(TEntity entity, CancellationToken cancellationToken)
+    public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
     {
-        _dbSet.Remove(entity);
+        var entity = await _dbSet.FindAsync(id, cancellationToken);
+        _dbSet.Remove(entity!);
+
         await Task.CompletedTask;
     }
 

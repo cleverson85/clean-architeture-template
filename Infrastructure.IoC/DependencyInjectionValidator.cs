@@ -1,5 +1,5 @@
-﻿using Domain.Entities;
-using Domain.Validation.Books;
+﻿using Application.Validation.Books;
+using Application.ViewModels.Book;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -9,6 +9,6 @@ public static class DependencyInjectionValidator
 {
     public static void Register(this IServiceCollection services)
     {
-        services.AddValidatorsFromAssemblyContaining<BookValidation<Book>>();
+        services.AddValidatorsFromAssemblyContaining<BookValidation<BookViewModel>>();
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Application.Interfaces;
-using Application.ViewModels;
+using Application.ViewModels.Book;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApp.Controllers;
@@ -15,15 +15,15 @@ public class BookController : ApiController
     }
 
     [HttpPost("[action]")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BookViewModel))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BookCreateViewModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> CreateBook([FromBody] BookViewModel bookViewModel, CancellationToken cancellationToken)
+    public async Task<IActionResult> CreateBook([FromBody] BookCreateViewModel bookViewModel, CancellationToken cancellationToken)
     {
         return !ModelState.IsValid ? CustomResponse(ModelState) : CustomResponse(await _bookService.AddBook(bookViewModel, cancellationToken));
     }
 
     [HttpGet("[action]")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<BookViewModel>))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<BookCreateViewModel>))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetBooks(CancellationToken cancellationToken)
     {

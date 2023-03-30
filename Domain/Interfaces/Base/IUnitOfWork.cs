@@ -4,5 +4,5 @@ namespace Domain.Interfaces.Base;
 
 public interface IUnitOfWork
 {
-    Task<ValidationResult> Commit();
+    Task Commit();
 }
