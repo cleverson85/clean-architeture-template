@@ -8,6 +8,6 @@ public interface IBookService
     Task<ValidationResult> AddBook(BookCreateViewModel entity, CancellationToken cancellationToken);
     Task<ValidationResult> UpdateBook(BookUpdateViewModel entity, CancellationToken cancellationToken);
     Task DeleteBook(Guid id, CancellationToken cancellationToken);
-    Task<BookViewModel> GetBook(Guid id, CancellationToken cancellationToken);
-    Task<IEnumerable<BookViewModel>> GetBooks(CancellationToken cancellationToken);
+    Task<BookCreateViewModel> GetBook(Guid id, CancellationToken cancellationToken);
+    Task<IEnumerable<BookCreateViewModel>> GetBooks(CancellationToken cancellationToken);
 }

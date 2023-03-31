@@ -1,9 +1,9 @@
-﻿using Application.ViewModels.Book;
+﻿using Domain.Entities;
 using FluentValidation;
 
-namespace Application.Validation.Books;
+namespace Domain.Validation.Books;
 
-public class BookValidation<T> : AbstractValidator<T> where T : BookViewModel
+public class BookValidation<T> : AbstractValidator<T> where T : Book
 {
     protected void ValidateAuthor()
     {

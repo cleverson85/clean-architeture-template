@@ -1,12 +1,6 @@
-﻿using Application.Validation.Books;
+﻿namespace Application.ViewModels.Book;
 
-namespace Application.ViewModels.Book;
-
-public class BookUpdateViewModel : BookViewModel
+public class BookUpdateViewModel : BaseViewModel
 {
-    public bool IsValid()
-    {
-        ValidationResult = new BookUpdateValidation().Validate(this);
-        return ValidationResult.IsValid;
-    }
+    public string Title { get; set; }
 }

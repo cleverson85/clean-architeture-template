@@ -20,17 +20,17 @@ public class BookService : IBookService
 
     public async Task<ValidationResult> AddBook(BookCreateViewModel entity, CancellationToken cancellationToken)
     {
-        if (!entity.IsValid())
-        {
-            return entity.ValidationResult;
-        }
-
         var book = _mapper.Map<Book>(entity);
+
+        if (!book.ValidateIsValid())
+        {
+            return book.ValidationResult;
+        }
 
         await _bookRepository.SaveAsync(book, cancellationToken);
         await _bookRepository.UnitOfWork.Commit();
 
-        return entity.ValidationResult;
+        return book.ValidationResult;
     }
 
     public async Task DeleteBook(Guid id, CancellationToken cancellationToken)
@@ -39,13 +39,13 @@ public class BookService : IBookService
         await _bookRepository.UnitOfWork.Commit();
     }
 
-    public async Task<BookViewModel> GetBook(Guid id, CancellationToken cancellationToken)
+    public async Task<BookCreateViewModel> GetBook(Guid id, CancellationToken cancellationToken)
     {
         var book = await _bookRepository.GetAsync(id, cancellationToken);
         return _mapper.Map<BookCreateViewModel>(book);
     }
 
-    public async Task<IEnumerable<BookViewModel>> GetBooks(CancellationToken cancellationToken)
+    public async Task<IEnumerable<BookCreateViewModel>> GetBooks(CancellationToken cancellationToken)
     {
         var books = await _bookRepository.GetAllAsync(cancellationToken);
         return _mapper.Map<IEnumerable<BookCreateViewModel>>(books);
@@ -53,16 +53,16 @@ public class BookService : IBookService
 
     public async Task<ValidationResult> UpdateBook(BookUpdateViewModel entity, CancellationToken cancellationToken)
     {
-        if (!entity.IsValid())
-        {
-            return entity.ValidationResult;
-        }
-
         var book = _mapper.Map<Book>(entity);
+
+        if (!book.UpdateIsValid())
+        {
+            return book.ValidationResult;
+        }
 
         await _bookRepository.UpdateAsync(book, cancellationToken);
         await _bookRepository.UnitOfWork.Commit();
 
-        return entity.ValidationResult;
+        return book.ValidationResult;
     }
 }
