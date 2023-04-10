@@ -46,7 +46,7 @@ public class BookController : ApiController
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> DeleteBook(Guid id, CancellationToken cancellationToken)
     {
-        await _bookService.DeleteBook(id, cancellationToken);
-        return Ok();
+        var result = await _bookService.DeleteBook(id, cancellationToken);
+        return Ok(result);
     }
 }
