@@ -1,11 +1,17 @@
 ﻿using Domain.Entities;
 using FluentValidation;
 
-namespace Domain.Validation.Books;
+namespace Application.Validation.Books;
 
-public class BookValidation<T> : AbstractValidator<T> where T : Book
+public class BookCreateValidation : AbstractValidator<Book>
 {
-    protected void ValidateAuthor()
+    public BookCreateValidation()
+    {
+        ValidateAuthor();
+        ValidateTitle();
+    }
+
+    public void ValidateAuthor()
     {
         RuleFor(c => c.Author)
                .NotEmpty()
@@ -14,7 +20,7 @@ public class BookValidation<T> : AbstractValidator<T> where T : Book
                .WithMessage("The Author Name must have between 2 and 150 characters");
     }
 
-    protected void ValidateTitle()
+    public void ValidateTitle()
     {
         RuleFor(c => c.Title)
             .NotEmpty()

@@ -10,7 +10,6 @@ public static class DependencyInjectionService
     public static void Register(IServiceCollection services)
     {
         services.AddTransient<ErrorHandlingMiddleware>();
-
         services.AddScoped<IBookService, BookService>();
     }
 }

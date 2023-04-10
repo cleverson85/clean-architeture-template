@@ -1,6 +1,7 @@
-﻿using Application.Interfaces;
-using Application.ViewModels.Book;
-using AutoMapper;
+﻿using Application.Exceptions;
+using Application.Interfaces;
+using Application.Validation.Books;
+using Domain.Dto;
 using Domain.Entities;
 using Domain.Interfaces.Repository;
 using FluentValidation.Results;
@@ -9,60 +10,64 @@ namespace Application.Services;
 
 public class BookService : IBookService
 {
-    private readonly IMapper _mapper;
     private readonly IBookRepository _bookRepository;
 
-    public BookService(IMapper mapper, IBookRepository bookRepository)
+    public BookService(IBookRepository bookRepository)
     {
         _bookRepository = bookRepository;
-        _mapper = mapper;
     }
 
-    public async Task<ValidationResult> AddBook(BookCreateViewModel entity, CancellationToken cancellationToken)
+    public async Task<ValidationResult> AddBook(BookDto bookDto, CancellationToken cancellationToken)
     {
-        var book = _mapper.Map<Book>(entity);
+        Book book = bookDto;
 
-        if (!book.ValidateIsValid())
+        var validator = new BookCreateValidation();
+        var result = validator.Validate(book);
+
+        if (result.IsValid)
         {
-            return book.ValidationResult;
+            await _bookRepository.SaveAsync(book, cancellationToken);
+            await _bookRepository.UnitOfWork.Commit();
         }
 
-        await _bookRepository.SaveAsync(book, cancellationToken);
-        await _bookRepository.UnitOfWork.Commit();
-
-        return book.ValidationResult;
+        return result;
     }
 
     public async Task DeleteBook(Guid id, CancellationToken cancellationToken)
     {
-        await _bookRepository.DeleteAsync(id, cancellationToken);
+        var book = await _bookRepository.GetAsync(id, cancellationToken) ?? throw new BookNotFoundException("Book not found."); 
+        await _bookRepository.DeleteAsync(book!, cancellationToken);
         await _bookRepository.UnitOfWork.Commit();
     }
 
-    public async Task<BookCreateViewModel> GetBook(Guid id, CancellationToken cancellationToken)
+    public async Task<BookDto> GetBook(Guid id, CancellationToken cancellationToken)
     {
         var book = await _bookRepository.GetAsync(id, cancellationToken);
-        return _mapper.Map<BookCreateViewModel>(book);
+        BookDto bookDto = book;
+
+        return bookDto;
     }
 
-    public async Task<IEnumerable<BookCreateViewModel>> GetBooks(CancellationToken cancellationToken)
+    public async Task<IEnumerable<Book>> GetBooks(CancellationToken cancellationToken)
     {
         var books = await _bookRepository.GetAllAsync(cancellationToken);
-        return _mapper.Map<IEnumerable<BookCreateViewModel>>(books);
+        return books;
     }
 
-    public async Task<ValidationResult> UpdateBook(BookUpdateViewModel entity, CancellationToken cancellationToken)
+    public async Task<ValidationResult> UpdateBook(BookDto bookDto, CancellationToken cancellationToken)
     {
-        var book = _mapper.Map<Book>(entity);
+        _ = await _bookRepository.GetAsync(bookDto.Id, cancellationToken) ?? throw new BookNotFoundException("Book not found.");
+        Book book = bookDto;
 
-        if (!book.UpdateIsValid())
+        var validator = new BookUpdateValidation();
+        var result = validator.Validate(book);
+
+        if (result.IsValid)
         {
-            return book.ValidationResult;
+            await _bookRepository.UpdateAsync(book, cancellationToken);
+            await _bookRepository.UnitOfWork.Commit();
         }
 
-        await _bookRepository.UpdateAsync(book, cancellationToken);
-        await _bookRepository.UnitOfWork.Commit();
-
-        return book.ValidationResult;
+        return result;
     }
 }

@@ -10,7 +10,5 @@ public abstract class BaseEntity
         Id = Guid.NewGuid();
     }
 
-    public Guid Id { get; set; }
-    [NotMapped]
-    public ValidationResult ValidationResult { get; set; }
+    public Guid Id { get; set; }    
 }

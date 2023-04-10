@@ -1,13 +1,14 @@
-﻿using Application.ViewModels.Book;
+﻿using Domain.Dto;
+using Domain.Entities;
 using FluentValidation.Results;
 
 namespace Application.Interfaces;
 
 public interface IBookService
 {
-    Task<ValidationResult> AddBook(BookCreateViewModel entity, CancellationToken cancellationToken);
-    Task<ValidationResult> UpdateBook(BookUpdateViewModel entity, CancellationToken cancellationToken);
+    Task<ValidationResult> AddBook(BookDto bookDto, CancellationToken cancellationToken);
+    Task<ValidationResult> UpdateBook(BookDto bookDto, CancellationToken cancellationToken);
     Task DeleteBook(Guid id, CancellationToken cancellationToken);
-    Task<BookCreateViewModel> GetBook(Guid id, CancellationToken cancellationToken);
-    Task<IEnumerable<BookCreateViewModel>> GetBooks(CancellationToken cancellationToken);
+    Task<BookDto> GetBook(Guid id, CancellationToken cancellationToken);
+    Task<IEnumerable<Book>> GetBooks(CancellationToken cancellationToken);
 }

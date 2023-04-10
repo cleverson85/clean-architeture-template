@@ -19,12 +19,10 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
 
     public IUnitOfWork UnitOfWork => _context;
 
-    public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
+    public async Task<TEntity> DeleteAsync(TEntity entity, CancellationToken cancellationToken)
     {
-        var entity = await _dbSet.FindAsync(id, cancellationToken);
         _dbSet.Remove(entity!);
-
-        await Task.CompletedTask;
+        return await Task.FromResult(entity);
     }
 
     public async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken)
@@ -37,15 +35,16 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         return await _dbSet.FindAsync(id, cancellationToken);
     }
 
-    public async Task SaveAsync(TEntity entity, CancellationToken cancellationToken)
+    public async Task<TEntity> SaveAsync(TEntity entity, CancellationToken cancellationToken)
     {
         await _dbSet.AddAsync(entity, cancellationToken);
+        return entity;
     }
 
-    public async Task UpdateAsync(TEntity entity, CancellationToken cancellationToken)
+    public async Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken)
     {
         _dbSet.Update(entity);
-        await Task.CompletedTask;
+        return await Task.FromResult(entity);
     }
 
     protected virtual void Dispose(bool disposing)

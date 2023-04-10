@@ -1,6 +1,5 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces.Base;
-using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -18,7 +17,6 @@ public class Context : DbContext, IUnitOfWork
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
         base.OnModelCreating(modelBuilder);
     }
 

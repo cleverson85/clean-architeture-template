@@ -1,5 +1,4 @@
-﻿using Application.Mapping;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure.IoC;
 
@@ -10,8 +9,5 @@ public static class DependencyInjection
         DependencyInjectionContext.Register(services);
         DependencyInjectionRepository.Register(services);
         DependencyInjectionService.Register(services);
-        DependencyInjectionValidator.Register(services);
-
-        services.AddAutoMapper(typeof(DomainToViewModelMappingProfile), typeof(ViewModelToDomainMappingProfile));
     }
 }

@@ -1,4 +1,4 @@
-﻿using Domain.Validation.Books;
+﻿using Domain.Dto;
 
 namespace Domain.Entities;
 
@@ -7,15 +7,10 @@ public class Book : BaseEntity, IAggregateRoot
     public string Author { get; set; }
     public string Title { get; set; }
 
-    public bool ValidateIsValid()
+    public static implicit operator BookDto(Book book) => new()
     {
-        ValidationResult = new BookCreateValidation().Validate(this);
-        return ValidationResult.IsValid;
-    }
-
-    public bool UpdateIsValid()
-    {
-        ValidationResult = new BookUpdateValidation().Validate(this);
-        return ValidationResult.IsValid;
-    }
+        Author = book.Author,
+        Title = book.Title,
+        Id = book.Id
+    };
 }
