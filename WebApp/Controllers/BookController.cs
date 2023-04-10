@@ -42,7 +42,7 @@ public class BookController : ApiController
     }
 
     [HttpDelete("[action]")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<BookDto>))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BookDto))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> DeleteBook(Guid id, CancellationToken cancellationToken)
     {

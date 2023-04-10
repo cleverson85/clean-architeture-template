@@ -33,11 +33,13 @@ public class BookService : IBookService
         return result;
     }
 
-    public async Task DeleteBook(Guid id, CancellationToken cancellationToken)
+    public async Task<Book> DeleteBook(Guid id, CancellationToken cancellationToken)
     {
-        var book = await _bookRepository.GetAsync(id, cancellationToken) ?? throw new BookNotFoundException("Book not found."); 
+        var book = await _bookRepository.GetAsync(id, cancellationToken) ?? throw new BookNotFoundException("Book not found.");
         await _bookRepository.DeleteAsync(book!, cancellationToken);
         await _bookRepository.UnitOfWork.Commit();
+
+        return book;
     }
 
     public async Task<BookDto> GetBook(Guid id, CancellationToken cancellationToken)
