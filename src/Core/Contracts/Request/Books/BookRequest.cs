@@ -1,9 +1,11 @@
 ﻿using Domain.Entities;
+using System.ComponentModel.DataAnnotations;
 
-namespace Core.Contracts;
+namespace Core.Contracts.Request.Books;
 
 public class BookRequest : CoreOperationRequest
 {
+    [Required]
     public string Author { get; set; } = string.Empty;
     public string Title { get; set; } = string.Empty;
 

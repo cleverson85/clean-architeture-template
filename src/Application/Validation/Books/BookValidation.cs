@@ -20,4 +20,11 @@ public class BookValidation : AbstractValidator<Book>
             .NotEmpty()
             .WithMessage("Please ensure you have entered the Title.");
     }
+
+    protected void ValidateObject()
+    {
+        RuleFor(c => c.Id)
+            .NotNull()
+            .WithMessage("Book not found to update.");
+    }
 }

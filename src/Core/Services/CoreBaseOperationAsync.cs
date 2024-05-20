@@ -14,7 +14,7 @@ namespace Core.Services
         protected IUnitOfWork _unitOfWork;
         protected ILogger<CoreBaseOperationAsync<TRequest, TResponse>> _logger;
 
-        public CoreBaseOperationAsync(IUnitOfWork unitOfWork, ILogger<CoreBaseOperationAsync<TRequest, TResponse>> logger)
+        protected CoreBaseOperationAsync(IUnitOfWork unitOfWork, ILogger<CoreBaseOperationAsync<TRequest, TResponse>> logger)
         {
             _unitOfWork = unitOfWork;
             _logger = logger;

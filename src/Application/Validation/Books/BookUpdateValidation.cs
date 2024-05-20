@@ -7,6 +7,6 @@ public class BookUpdateValidation : BookValidation
 {
     public BookUpdateValidation()
     {
-        ValidateTitle();
+        ValidateObject();
     }
 }

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Domain.Interfaces.Base;
 
-public interface IUnitOfWork : IDisposable
+public interface IUnitOfWork
 {
     DbContext Context { get; }
     IBookRepository BookRepository { get; }

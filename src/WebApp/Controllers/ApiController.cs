@@ -2,62 +2,59 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
+namespace WebApp.Controllers;
 
-namespace WebApp.Controllers
+[ApiController]
+public abstract class ApiController<T> : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public abstract class ApiController : ControllerBase
+    private readonly ICollection<string> _errors = new List<string>();
+
+    protected ActionResult CustomResponse(object? result = null)
     {
-        private readonly ICollection<string> _errors = new List<string>();
-
-        protected ActionResult CustomResponse(object? result = null)
+        if (IsOperationValid())
         {
-            if (IsOperationValid())
-            {
-                return Ok(result);
-            }
-
-            return BadRequest(new ValidationProblemDetails(new Dictionary<string, string[]>
-            {
-                { "Messages", _errors.ToArray() }
-            }));
+            return Ok(result);
         }
 
-        protected ActionResult CustomResponse(ModelStateDictionary modelState)
+        return BadRequest(new ValidationProblemDetails(new Dictionary<string, string[]>
         {
-            var errors = modelState.Values.SelectMany(e => e.Errors);
-            foreach (var error in errors)
-            {
-                AddError(error.ErrorMessage);
-            }
+            { "Messages", _errors.ToArray() }
+        }));
+    }
 
-            return CustomResponse();
+    protected ActionResult CustomResponse(ModelStateDictionary modelState)
+    {
+        var errors = modelState.Values.SelectMany(e => e.Errors);
+        foreach (var error in errors)
+        {
+            AddError(error.ErrorMessage);
         }
 
-        protected ActionResult CustomResponse(ValidationResult validationResult)
-        {
-            foreach (var error in validationResult.Errors)
-            {
-                AddError(error.ErrorMessage);
-            }
+        return CustomResponse();
+    }
 
-            return CustomResponse();
+    protected ActionResult CustomResponse(ValidationResult validationResult)
+    {
+        foreach (var error in validationResult.Errors)
+        {
+            AddError(error.ErrorMessage);
         }
 
-        protected bool IsOperationValid()
-        {
-            return !_errors.Any();
-        }
+        return CustomResponse();
+    }
 
-        protected void AddError(string erro)
-        {
-            _errors.Add(erro);
-        }
+    protected bool IsOperationValid()
+    {
+        return !_errors.Any();
+    }
 
-        protected void ClearErrors()
-        {
-            _errors.Clear();
-        }
+    protected void AddError(string erro)
+    {
+        _errors.Add(erro);
+    }
+
+    protected void ClearErrors()
+    {
+        _errors.Clear();
     }
 }

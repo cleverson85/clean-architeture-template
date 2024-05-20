@@ -9,4 +9,9 @@ public class CoreOperationResponse : ValidationResult
     {
         return JsonSerializer.Serialize(this);
     }
+
+    public void AddError(string errorMessage)
+    {
+        Errors.Add(new ValidationFailure("error", errorMessage));
+    }    
 }

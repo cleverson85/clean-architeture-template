@@ -1,4 +1,4 @@
-﻿using Application.Response;
+﻿using Core.Contracts.Response.Books;
 using Domain.Entities;
 
 namespace Application.Mappers;

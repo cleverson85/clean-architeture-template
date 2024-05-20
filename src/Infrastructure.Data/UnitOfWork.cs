@@ -8,7 +8,6 @@ namespace Infrastructure.Data;
 
 public class UnitOfWork : IUnitOfWork
 {
-    private bool disposedValue; 
     public DbContext Context { get; private set;  }
     public IBookRepository BookRepository { get; private set;  }
 
@@ -31,27 +30,5 @@ public class UnitOfWork : IUnitOfWork
     public async Task RollBackTransactionAsync()
     {
         await Context.Database.RollbackTransactionAsync();
-    }
-
-    protected virtual void Dispose(bool disposing)
-    {
-        if (!disposedValue)
-        {
-            if (disposing)
-            {
-                if (this == null)
-                {
-                    Dispose();
-                }
-            }
-
-            disposedValue = true;
-        }
-    }
-
-    public void Dispose()
-    {
-        Dispose(disposing: true);
-        GC.SuppressFinalize(this);
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Core;
 using Domain.Entities;
 
-namespace Application.Response;
+namespace Core.Contracts.Response.Books;
 
 public class BookResponse : CoreOperationResponse
 {
