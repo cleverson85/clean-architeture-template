@@ -1,13 +1,13 @@
-﻿using Application.Interfaces.Books;
-using Asp.Versioning;
+﻿using Application.Contracts.Request.Books;
+using Application.Interfaces.Books;
 using Core.Contracts.Request.Books;
 using Core.Contracts.Response.Books;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApp.Controllers.V1;
 
-[ApiVersion(1)]
-[ApiVersion(2)]
+[ApiVersion("1")]
+[ApiVersion("2")]
 [Route("api/v{version:apiVersion}/book")]
 public class BookController : ApiController<BookController>
 {
@@ -22,7 +22,7 @@ public class BookController : ApiController<BookController>
         _updateBookOperation = updateBookOperation;
     }
 
-    [MapToApiVersion(1)]
+    [MapToApiVersion("1")]
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BookResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -37,7 +37,7 @@ public class BookController : ApiController<BookController>
         return CustomResponse(result);
     }
 
-    [MapToApiVersion(1)]
+    [MapToApiVersion("1")]
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<BookResponse>))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -47,7 +47,7 @@ public class BookController : ApiController<BookController>
         return Ok(result);
     }
 
-    [MapToApiVersion(1)]
+    [MapToApiVersion("1")]
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateBookResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

@@ -1,6 +1,7 @@
 ﻿using Application.Interfaces.Books;
 using Application.Middlewares;
 using Application.Services.Books;
+using Infrastructure.Data.Services.Books;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure.IoC;

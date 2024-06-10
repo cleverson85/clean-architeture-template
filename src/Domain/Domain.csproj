@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -10,11 +10,6 @@
     <Compile Remove="Contracts\**" />
     <EmbeddedResource Remove="Contracts\**" />
     <None Remove="Contracts\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.4" />
-    <PackageReference Include="FluentValidation" Version="11.5.1" />
   </ItemGroup>
 
 </Project>

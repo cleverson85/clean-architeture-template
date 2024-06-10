@@ -1,4 +1,4 @@
-﻿using Domain.Interfaces.Base;
+﻿using Application.Interfaces.Base;
 using Infrastructure.Data;
 using Infrastructure.Data.Contexts;
 using Infrastructure.Data.Options;

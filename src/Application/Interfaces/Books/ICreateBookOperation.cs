@@ -1,6 +1,6 @@
-﻿using Core.Contracts.Request.Books;
+﻿using Application.Contracts.Request.Books;
+using Application.Core.Interfaces;
 using Core.Contracts.Response.Books;
-using Core.Interfaces;
 
 namespace Application.Interfaces.Books;
 
