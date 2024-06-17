@@ -19,4 +19,3 @@ public class Context : DbContext
         base.OnModelCreating(modelBuilder);
     }
 }
-

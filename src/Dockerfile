@@ -9,7 +9,6 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 COPY ["WebApp/WebApp.csproj", "WebApp/"]
 COPY ["Application/Application.csproj", "Application/"]
-COPY ["Infrastructure/Infrastructure.Data.csproj", "Infrastructure/"]
 COPY ["Domain/Domain.csproj", "Domain/"]
 COPY ["Infrastructure.IoC/Infrastructure.IoC.csproj", "Infrastructure.IoC/"]
 COPY ["Infrastructure.Data/Infrastructure.Data.csproj", "Infrastructure.Data/"]

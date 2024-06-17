@@ -51,8 +51,8 @@ services.ConfigureOptions<ConfigureSwaggerGenOptions>();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
+// if (app.Environment.IsDevelopment())
+// {
     app.UseSwagger();
     app.UseSwaggerUI(options =>
     {
@@ -66,7 +66,7 @@ if (app.Environment.IsDevelopment())
         }
     });
     services.ExecuteMigration();
-}
+//}
 
 app.UseSerilogRequestLogging();
 app.UseHttpsRedirection();
