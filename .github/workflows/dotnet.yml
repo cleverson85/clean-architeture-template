@@ -2,7 +2,7 @@ name: .NET Build, Test, Push Docker Image
 
 on:
   push:
-    branches: main
+    branches: master
 jobs:
   build:
     runs-on: ubuntu-latest
