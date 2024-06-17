@@ -2,7 +2,7 @@ name: .NET Build, Test, Push Docker Image
 
 on:
   push:
-    branches: master
+    branches: [master]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,8 +16,16 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
     - name: Test
       run: dotnet test --no-build --verbosity normal
+  image:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
     - name: Checkout code
       uses: actions/checkout@v2
     - name: Set up Docker Buildx
