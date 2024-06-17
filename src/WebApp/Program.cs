@@ -78,3 +78,5 @@ app.UseHealthChecks(HealthPath);
 app.UseMiddleware(typeof(ErrorHandlingMiddleware));
 
 app.Run();
+
+public partial class Program { }
