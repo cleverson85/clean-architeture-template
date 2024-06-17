@@ -2,28 +2,25 @@
 using Application.Core.Services;
 using Application.Interfaces.Base;
 using Application.Interfaces.Books;
-using Application.Mappers;
 using Application.Validation.Books;
 using Core.Contracts.Response.Books;
-using Domain.Entities;
 using FluentValidation.Results;
 using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Data.Services.Books;
 
-public class CreateBookOperation : CoreOperationAsync<BookRequest, BookResponse>, ICreateBookOperation
+public class CreateBookOperation : CoreOperationAsync<CreateBookRequest, CreateBookResponse>, ICreateBookOperation
 {
-    public CreateBookOperation(IUnitOfWork unitOfWork, ILogger<CoreOperationAsync<BookRequest, BookResponse>> logger) : base(unitOfWork, logger)
+    public CreateBookOperation(IUnitOfWork unitOfWork, ILogger<CoreOperationAsync<CreateBookRequest, CreateBookResponse>> logger) : base(unitOfWork, logger)
     { }
 
-    protected override async Task<BookResponse> ProcessOperationAsync(BookRequest request, CancellationToken cancellationToken)
+    protected override async Task<CreateBookResponse> ProcessOperationAsync(CreateBookRequest request, CancellationToken cancellationToken)
     {
-        Book book = request;
-        var result = await _unitOfWork.BookRepository.SaveAsync(book, cancellationToken);
-        return result.Map();
+        var result = await _unitOfWork.BookRepository.SaveAsync(request, cancellationToken);
+        return result;
     }
 
-    protected override async Task<ValidationResult> ValidateAsync(BookRequest request, CancellationToken cancellationToken)
+    protected override async Task<ValidationResult> ValidateAsync(CreateBookRequest request, CancellationToken cancellationToken)
     {
         var validator = new BookCreateValidation();
         return await validator.ValidateAsync(request, cancellationToken);

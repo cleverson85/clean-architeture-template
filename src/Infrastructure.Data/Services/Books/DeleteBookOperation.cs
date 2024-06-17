@@ -10,19 +10,16 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Services.Books
 {
-    public class UpdateBookOperation : CoreOperationAsync<UpdateBookRequest, UpdateBookResponse>, IUpdateBookOperation
+    public class DeleteBookOperation : CoreOperationAsync<UpdateBookRequest, UpdateBookResponse>, IDeleteBookOperation
     {
         private Book _book;
 
-        public UpdateBookOperation(IUnitOfWork unitOfWork, ILogger<CoreOperationAsync<UpdateBookRequest, UpdateBookResponse>> logger) : base(unitOfWork, logger)
+        public DeleteBookOperation(IUnitOfWork unitOfWork, ILogger<CoreOperationAsync<UpdateBookRequest, UpdateBookResponse>> logger) : base(unitOfWork, logger)
         { }
 
         protected override async Task<UpdateBookResponse> ProcessOperationAsync(UpdateBookRequest request, CancellationToken cancellationToken)
         {
-            _book.Author = request.Book.Author;
-            _book.Title = request.Book.Title;
-
-            var result = await _unitOfWork.BookRepository.UpdateAsync(_book, cancellationToken);
+            var result = await _unitOfWork.BookRepository.DeleteAsync(_book, cancellationToken);
             return (UpdateBookResponse)result;
         }
 
@@ -33,7 +30,7 @@ namespace Application.Services.Books
 
             if (_book is null)
             {
-                response.AddError("Book not found to updated.");
+                response.AddError("Book not found.");
             }
 
             return response;

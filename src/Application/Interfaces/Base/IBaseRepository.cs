@@ -8,5 +8,5 @@ public interface IBaseRepository<TEntity> : IDisposable where TEntity : BaseEnti
     Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken);
     Task<TEntity> DeleteAsync(TEntity entity, CancellationToken cancellationToken);
     Task<TEntity> GetAsync(Guid id, CancellationToken cancellationToken);
-    Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken);
+    Task<List<TEntity>> GetAllAsync(CancellationToken cancellationToken);
 }

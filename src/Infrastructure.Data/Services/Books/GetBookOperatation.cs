@@ -15,6 +15,6 @@ public class GetBookOperatation : CoreOperationAsync<GetBookRequest, GetBookResp
     protected override async Task<GetBookResponse> ProcessOperationAsync(GetBookRequest request, CancellationToken cancellationToken)
     {
          var result = await _unitOfWork.BookRepository.GetAllAsync(cancellationToken);
-        return new GetBookResponse() { Books = result };
+        return result;
     }
 }

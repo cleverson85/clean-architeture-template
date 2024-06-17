@@ -1,16 +1,15 @@
 ﻿using Application.Core;
+using Core.Contracts.Response.Books;
 using Domain.Entities;
-using System.ComponentModel.DataAnnotations;
 
 namespace Application.Contracts.Request.Books;
 
-public class BookRequest : CoreOperationRequest
+public class CreateBookRequest : CoreOperationRequest
 {
-    [Required]
     public string Author { get; set; } = string.Empty;
     public string Title { get; set; } = string.Empty;
 
-    public static implicit operator Book(BookRequest bookRequest) => new()
+    public static implicit operator Book(CreateBookRequest bookRequest) => new()
     {
         Author = bookRequest.Author,
         Title = bookRequest.Title,

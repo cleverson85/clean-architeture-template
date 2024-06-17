@@ -22,4 +22,7 @@
     <ProjectReference Include="..\..\src\WebApp\WebApp.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
 </Project>

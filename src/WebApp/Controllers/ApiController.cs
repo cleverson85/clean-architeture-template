@@ -40,7 +40,7 @@ public abstract class ApiController<T> : ControllerBase
             AddError(error.ErrorMessage);
         }
 
-        return CustomResponse();
+        return CustomResponse(result: validationResult);
     }
 
     protected bool IsOperationValid()
