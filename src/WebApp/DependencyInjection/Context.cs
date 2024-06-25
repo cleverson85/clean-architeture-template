@@ -8,24 +8,24 @@ namespace WebApp;
 
 public static class Context
 {
-    public static void Register(IServiceCollection services)
+  public static void Register(IServiceCollection services)
+  {
+    services.AddDbContext<Infrastructure.Data.Contexts.Context>((serviceProvider, options) =>
     {
-        services.AddDbContext<Infrastructure.Data.Contexts.Context>((serviceProvider, options) =>
-        {
-            var databaseOptions = serviceProvider.GetService<IOptions<DataBaseOptions>>()!.Value;
+      var databaseOptions = serviceProvider.GetService<IOptions<DataBaseOptions>>()!.Value;
 
-            options.UseNpgsql(databaseOptions.ConnectionString, sqlOptions =>
-            {
-                sqlOptions.EnableRetryOnFailure(
-                    maxRetryCount: databaseOptions.MaxRetryCount, 
-                    maxRetryDelay: TimeSpan.FromSeconds(30), 
-                    errorCodesToAdd: null);
-                sqlOptions.CommandTimeout(databaseOptions.CommandTimeout);
-            });
-
-            options.EnableDetailedErrors(databaseOptions.EnableDetailedErrors);
+      options.UseNpgsql(databaseOptions.ConnectionString, sqlOptions =>
+          {
+          sqlOptions.EnableRetryOnFailure(
+                  maxRetryCount: databaseOptions.MaxRetryCount,
+                  maxRetryDelay: TimeSpan.FromSeconds(30),
+                  errorCodesToAdd: null);
+          sqlOptions.CommandTimeout(databaseOptions.CommandTimeout);
         });
 
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
-    }
+      options.EnableDetailedErrors(databaseOptions.EnableDetailedErrors);
+    });
+
+    services.AddScoped<IUnitOfWork, UnitOfWork>();
+  }
 }

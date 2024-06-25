@@ -17,6 +17,7 @@ public static class Injection
         Context.Register(services);
         Repository.Register(services);
         Service.Register(services);
+        Cache.Register(services);
     }
 
     private static void ConfigureOtherStuffs(IServiceCollection services)
