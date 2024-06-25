@@ -5,11 +5,8 @@ namespace WebApp;
 
 public static class Injection
 {
-    const string CorsPolicy = "CorsPolicy";
-
     public static void ConfigureInjection(this IServiceCollection services)
     {
-        ConfigureCors(services);
         ConfigureVersioning(services);
         ConfigureOtherStuffs(services);
 
@@ -45,16 +42,5 @@ public static class Injection
             options.GroupNameFormat = "'v'V";
             options.SubstituteApiVersionInUrl = true;
           });
-    }
-
-    private static void ConfigureCors(IServiceCollection services)
-    {
-        services.AddCors(options => options.AddPolicy(CorsPolicy,
-                         builder =>
-                         {
-                             builder.AllowAnyOrigin()
-                                    .AllowAnyMethod()
-                                    .AllowAnyHeader();
-                         }));
     }
 }

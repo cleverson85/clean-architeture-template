@@ -13,5 +13,6 @@ public static class Service
         services.AddScoped<ICreateBookOperation, CreateBookOperation>();
         services.AddScoped<IGetBookOperation, GetBookOperatation>();
         services.AddScoped<IUpdateBookOperation, UpdateBookOperation>();
+        services.AddScoped<IDeleteBookOperation, DeleteBookOperation>();
     }
 }

@@ -1,16 +1,20 @@
-namespace WebApp;
+﻿using Infrastructure.Data.Options;
+using Microsoft.Extensions.Options;
+using StackExchange.Redis;
+
+namespace WebApp.DependencyInjection;
 
 public static class Cache
 {
-  public static void Register(IServiceCollection services)
-  {
-    string connectionString = builder.Configuration.GetConnectionString("Redis");
-    IConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect(connectionString);
-    services.AddSingleton(connectionMultiplexer);
-
-    services.AddStackExchangeRedisCache(options =>
+    public static void Register(IServiceCollection services)
     {
-      options.ConnectionMultiplexerFactory = () => Task.FromResult(connectionMultiplexer);
-    });
-  }
+        var redisConnection = services.BuildServiceProvider().GetService<IOptions<RedisOptions>>()!.Value;
+        IConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect(redisConnection.ConnectionString);
+        services.AddSingleton(connectionMultiplexer);
+
+        services.AddStackExchangeRedisCache(options =>
+        {
+            options.ConnectionMultiplexerFactory = () => Task.FromResult(connectionMultiplexer);
+        });
+    }
 }

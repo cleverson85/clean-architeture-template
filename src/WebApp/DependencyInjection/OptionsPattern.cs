@@ -9,6 +9,7 @@ namespace WebApp.DependencyInjection
         {
             services.ConfigureOptions<DataBaseOptionsSetup>();
             services.ConfigureOptions<ConfigureSwaggerGenOptions>();
+            services.ConfigureOptions<RedisOptionsSetup>();
         }
     }
 }

@@ -28,10 +28,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         return await _dbSet.ToListAsync(cancellationToken);
     }
 
-    public async Task<TEntity> GetAsync(Guid id, CancellationToken cancellationToken)
-    {
-        return await _dbSet.FindAsync(id, cancellationToken);
-    }
+    public async Task<TEntity> GetAsync(Guid id, CancellationToken cancellationToken) => await _dbSet.FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
 
     public async Task<TEntity> SaveAsync(TEntity entity, CancellationToken cancellationToken)
     {

@@ -26,7 +26,7 @@ namespace Application.Services.Books
         protected override async Task<ValidationResult> ValidateAsync(UpdateBookRequest request, CancellationToken cancellationToken)
         {
             var response = new CoreOperationResponse();
-            _book = await _unitOfWork.BookRepository.GetAsync(request.Book.Id, cancellationToken);
+            _book = await _unitOfWork.BookRepository.GetAsync(request.Id, cancellationToken);
 
             if (_book is null)
             {
