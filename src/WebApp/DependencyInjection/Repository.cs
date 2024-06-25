@@ -1,10 +1,9 @@
 ﻿using Application.Interfaces.Repository;
 using Infrastructure.Data.Repositories;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace Infrastructure.IoC;
+namespace WebApp;
 
-public static class DependencyInjectionRepository
+public static class Repository
 {
     public static void Register(IServiceCollection services)
     {

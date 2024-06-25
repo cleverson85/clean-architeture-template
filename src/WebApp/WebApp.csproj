@@ -33,8 +33,10 @@
     <Folder Include="Controllers\V2\" />
   </ItemGroup>
 
+
   <ItemGroup>
-    <ProjectReference Include="..\Infrastructure.IoC\Infrastructure.IoC.csproj" />
+    <ProjectReference Include="..\Application\Application.csproj" />
+    <ProjectReference Include="..\Infrastructure.Data\Infrastructure.Data.csproj" />
   </ItemGroup>
 
 </Project>

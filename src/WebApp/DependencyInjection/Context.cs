@@ -1,18 +1,16 @@
 ﻿using Application.Interfaces.Base;
 using Infrastructure.Data;
-using Infrastructure.Data.Contexts;
 using Infrastructure.Data.Options;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-namespace Infrastructure.IoC;
+namespace WebApp;
 
-public static class DependencyInjectionContext
+public static class Context
 {
     public static void Register(IServiceCollection services)
     {
-        services.AddDbContext<Context>((serviceProvider, options) =>
+        services.AddDbContext<Infrastructure.Data.Contexts.Context>((serviceProvider, options) =>
         {
             var databaseOptions = serviceProvider.GetService<IOptions<DataBaseOptions>>()!.Value;
 
