@@ -8,20 +8,14 @@ EXPOSE 8081
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
-WORKDIR /src
-COPY ["src/WebApp/WebApp.csproj", "src/WebApp/"]
-COPY ["src/Infrastructure.IoC/Infrastructure.IoC.csproj", "src/Infrastructure.IoC/"]
-COPY ["src/Application/Application.csproj", "src/Application/"]
-COPY ["src/Domain/Domain.csproj", "src/Domain/"]
-COPY ["src/Infrastructure.Data/Infrastructure.Data.csproj", "src/Infrastructure.Data/"]
-RUN dotnet restore "./src/WebApp/WebApp.csproj"
-COPY . .
-WORKDIR "/src/src/WebApp"
-RUN dotnet build "./WebApp.csproj" -c $BUILD_CONFIGURATION -o /app/build
+COPY src src
+COPY tests tests
+WORKDIR "/src/WebApp"
+RUN dotnet build "WebApp.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./WebApp.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "WebApp.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app

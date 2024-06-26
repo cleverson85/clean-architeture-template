@@ -1,0 +1,57 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: postgres
+    environment:
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres-volume:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      - local
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - 8181:80
+    networks:
+      - local
+    depends_on:
+      - postgres
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    ports:
+      - 6379:6379
+    volumes:
+      - /local-data:/data
+    networks:
+      - local
+
+  webapp:
+    build: . 
+    container_name: webapp
+    environment:
+      ASPNETCORE_URLS: http://+
+      ASPNETCORE_ENVIRONMENT: Production
+    ports:
+      - 8080:80
+    networks:
+      - local
+    depends_on:
+      - postgres
+      - redis
+
+volumes:
+  postgres-volume:
+  
+networks:
+  local:
+    driver: bridge
+

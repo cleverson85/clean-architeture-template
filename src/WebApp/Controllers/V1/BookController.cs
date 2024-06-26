@@ -35,7 +35,7 @@ public class BookController : ApiController<BookController>
     public async Task<IActionResult> GetBooks(IGetBookOperation _getBookOperation, CancellationToken cancellationToken)
     {
         var result = await _getBookOperation.ProcessAsync(new GetBookRequest(), cancellationToken);
-        return CustomResponse(result.Books);
+        return CustomResponse(result?.Books);
     }
 
     [MapToApiVersion("1")]
