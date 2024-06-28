@@ -2,11 +2,9 @@
 
 public static class Cors
 {
-    const string CorsPolicy = "CorsPolicy";
-
-    public static void Register(IServiceCollection services)
+    public static void Register(IServiceCollection services, string corsPolicy)
     {
-        services.AddCors(options => options.AddPolicy(CorsPolicy,
+        services.AddCors(options => options.AddPolicy(corsPolicy,
                             builder =>
                             {
                                 builder.AllowAnyOrigin()

@@ -3,11 +3,11 @@ using Domain.Entities;
 
 namespace Application.Books.Commands.Create;
 
-public class CreateBookResponse : CoreOperationResponse
+public sealed class CreateBookResponse : CoreOperationResponse
 {
     public Book? Book { get; set; }
 
-    public static implicit operator CreateBookResponse(Book book) => new()
+    public static explicit operator CreateBookResponse(Book book) => new()
     {
         Book = book,
     };

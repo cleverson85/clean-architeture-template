@@ -9,5 +9,4 @@ public interface ICommandHandler<TRequest> : IRequestHandler<TRequest, CoreOpera
 
 public interface ICommandHandler<TRequest, TResponse> : IRequestHandler<TRequest, CoreOperationResponse>
     where TRequest : ICommand<CoreOperationResponse>
-    where TResponse : CoreOperationResponse
 { }

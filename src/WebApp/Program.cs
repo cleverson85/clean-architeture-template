@@ -4,7 +4,7 @@ using Asp.Versioning.ApiExplorer;
 using WebApp;
 using WebApp.Middlewares;
 
-const string CorsPolicy = "CorsPolicy";
+const string CorsPolicy = "corsPolicy";
 const string HealthPath = "/health";
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,7 +14,11 @@ builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Confi
 
 var services = builder.Services;
 
-services.ConfigureInjection();
+services.AddControllers();
+services.AddEndpointsApiExplorer();
+services.AddSwaggerGen();
+services.AddHealthChecks();
+services.SetupInjection(CorsPolicy);
 
 var app = builder.Build();
 
@@ -32,7 +36,8 @@ if (app.Environment.IsDevelopment())
             options.SwaggerEndpoint(url, name);
         }
     });
-    services.ExecuteMigration();
+
+    app.ApplyMigration();
 }
 
 app.UseSerilogRequestLogging();
@@ -42,7 +47,7 @@ app.UseCors(CorsPolicy);
 app.UseAuthorization();
 app.MapControllers();
 app.UseHealthChecks(HealthPath);
-app.UseMiddleware(typeof(ErrorHandlingMiddleware));
+app.UseMiddleware(typeof(ExceptionHandlingMiddleware));
 
 app.Run();
 

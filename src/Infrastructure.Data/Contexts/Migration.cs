@@ -1,22 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure.Data.Contexts;
 
 public static class Migration
 {
-    public static void ExecuteMigration(this IServiceCollection services)
+    public static void ApplyMigration(this IApplicationBuilder app)
     {
-        var serviceProvider = services.BuildServiceProvider();
-
-		try
-		{
-			var context = serviceProvider.GetRequiredService<Context>();
-			context.Database.Migrate();
-		}
-		catch (Exception)
-		{
-
-		}
+        using IServiceScope scope = app.ApplicationServices.CreateScope();
+        using var dbContext = scope.ServiceProvider.GetRequiredService<Context>();
+        dbContext.Database.Migrate();
     }
 }

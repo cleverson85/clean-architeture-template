@@ -1,4 +1,5 @@
 ﻿using Application.Core.Contract;
+using Application.Core.Interfaces;
 using Domain.Interfaces.Base;
 using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
@@ -20,13 +21,7 @@ public abstract class CoreOperationAsync<TRequest, TResponse> : ICoreBaseOperati
         _logger = logger;
     }
 
-    public Task<CoreOperationResponse> Handle(TRequest request, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
-    
-    public async Task<TResponse> ProcessAsync(TRequest request, CancellationToken cancellationToken)
+    public async Task<CoreOperationResponse> Handle(TRequest request, CancellationToken cancellationToken)
     {
         TResponse response = new TResponse();
 

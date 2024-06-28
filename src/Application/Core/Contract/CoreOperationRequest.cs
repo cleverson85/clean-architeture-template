@@ -1,5 +1,4 @@
 ﻿using Application.Interfaces.Messaging;
-using MediatR;
 using System.Text.Json;
 
 namespace Application.Core.Contract;

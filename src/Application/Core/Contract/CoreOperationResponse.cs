@@ -10,8 +10,8 @@ public class CoreOperationResponse : ValidationResult
         return JsonSerializer.Serialize(this);
     }
 
-    public void AddError(string errorMessage)
+    public void AddError(string code, string message)
     {
-        Errors.Add(new ValidationFailure("error", errorMessage));
+        Errors.Add(new ValidationFailure(code, message));
     }
 }

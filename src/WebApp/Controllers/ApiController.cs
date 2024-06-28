@@ -1,12 +1,16 @@
 ﻿using FluentValidation.Results;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace WebApp.Controllers;
 
 [ApiController]
 public abstract class ApiController<T> : ControllerBase
 {
+    private ISender _sender;
+
+    protected ISender Sender => _sender ??= HttpContext.RequestServices.GetService<ISender>();
+
     private readonly ICollection<string> _errors = new List<string>();
 
     protected ActionResult CustomResponse(object? result = null)
@@ -20,17 +24,6 @@ public abstract class ApiController<T> : ControllerBase
         {
             { "Messages", _errors.ToArray() }
         }));
-    }
-
-    protected ActionResult CustomResponse(ModelStateDictionary modelState)
-    {
-        var errors = modelState.Values.SelectMany(e => e.Errors);
-        foreach (var error in errors)
-        {
-            AddError(error.ErrorMessage);
-        }
-
-        return CustomResponse();
     }
 
     protected ActionResult CustomResponse(ValidationResult validationResult)

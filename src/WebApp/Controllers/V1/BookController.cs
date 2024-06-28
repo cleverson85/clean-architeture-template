@@ -1,10 +1,10 @@
-﻿using Application.Contracts.Request.Books;
-using Application.Interfaces.Books;
+﻿using Application.Books.Commands.Create;
+using Application.Books.Commands.Delete;
+using Application.Books.Commands.Update;
+using Application.Books.Queries.GetAll;
+using Application.Books.Queries.GetById;
 using Asp.Versioning;
-using Core.Contracts.Request.Books;
-using Core.Contracts.Response.Books;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Distributed;
 
 namespace WebApp.Controllers.V1;
 
@@ -15,71 +15,51 @@ public class BookController : ApiController<BookController>
 {
     [MapToApiVersion("1")]
     [HttpPost]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CreateBookResponse))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Guid))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> CreateBook(ICreateBookOperation _createBookOperation, [FromBody] CreateBookRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> CreateBook([FromBody] CreateBookRequest request, CancellationToken cancellationToken)
     {
-        if (!ModelState.IsValid)
-        {
-            return CustomResponse(ModelState);
-        }
-
-        var result = await _createBookOperation.ProcessAsync(request, cancellationToken);
-        return CustomResponse(result.Book);
+        var result = await Sender.Send(request, cancellationToken);
+        return CustomResponse(result as CreateBookResponse);
     }
 
     [MapToApiVersion("1")]
     [HttpGet]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<GetBookResponse>))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<BookResponseList>))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> GetBooks(IGetBookOperation _getBookOperation, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetBooks(CancellationToken cancellationToken)
     {
-        var result = await _getBookOperation.ProcessAsync(new GetBookRequest(), cancellationToken);
-        return CustomResponse(result?.Books);
+        var result = await Sender.Send(new GetAllBooksQuery(), cancellationToken);
+        return CustomResponse(result as BookResponseList);
     }
 
     [MapToApiVersion("1")]
     [HttpGet("{id}")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetBookResponse))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BookResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> GetBook(IGetBookOperation _getBookOperation, IDistributedCache cache, Guid id, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetBook(Guid id, CancellationToken cancellationToken)
     {
-        var request = new GetBookRequest()
-        {
-            Id = id,
-        };
-
-        var result = await _getBookOperation.ProcessAsync(request, cancellationToken);
-        return CustomResponse(result.Book);
+        var result = await Sender.Send(new GetBookByIdQuery(id), cancellationToken);
+        return CustomResponse(result as BookResponse);
     }
 
     [MapToApiVersion("1")]
     [HttpPut]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateBookResponse))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Guid))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> UpdateBook(IUpdateBookOperation _updateBookOperation, UpdateBookRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> UpdateBook(UpdateBookRequest request, CancellationToken cancellationToken)
     {
-        if (!ModelState.IsValid)
-        {
-            return CustomResponse(ModelState);
-        }
-
-        var result = await _updateBookOperation.ProcessAsync(request, cancellationToken);
-        return CustomResponse(result.Book);
+        var result = await Sender.Send(request, cancellationToken);
+        return CustomResponse(result as UpdateBookResponse);
     }
 
     [MapToApiVersion("1")]
     [HttpDelete("{id}")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateBookResponse))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Guid))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> DeleteBook(IDeleteBookOperation _deleteBookOperation, Guid id, CancellationToken cancellationToken)
+    public async Task<IActionResult> DeleteBook(Guid id, CancellationToken cancellationToken)
     {
-        var request = new UpdateBookRequest()
-        {
-            Id = id,
-        };
-
-        var result = await _deleteBookOperation.ProcessAsync(request, cancellationToken);
-        return CustomResponse(result.Book);
+        var result = await Sender.Send(new DeleteBookRequest(id), cancellationToken);
+        return CustomResponse(result as DeleteBookResponse);
     }
 }
