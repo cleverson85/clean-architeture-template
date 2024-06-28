@@ -1,13 +1,13 @@
 ﻿namespace Domain;
 
-public abstract class BaseEntity
+public abstract class Entity
 {
-    protected BaseEntity()
+    protected Entity()
     {
         Id = Guid.NewGuid();
         AddDate = DateOnly.FromDateTime(DateTime.Now);
     }
 
-    public Guid Id { get; set; }  
+    public Guid Id { get; private set; }  
     public DateOnly AddDate { get; private set;  }
 }

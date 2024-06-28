@@ -1,9 +1,8 @@
 ﻿using System.Net;
-using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
+using System.Text.Json;
 using Serilog;
 
-namespace Application.Middlewares;
+namespace WebApp.Middlewares;
 
 public class ErrorHandlingMiddleware : IMiddleware
 {
@@ -13,7 +12,6 @@ public class ErrorHandlingMiddleware : IMiddleware
         {typeof (ArgumentException), HttpStatusCode.BadRequest},
         {typeof (ArgumentOutOfRangeException), HttpStatusCode.BadRequest},
         {typeof (InvalidOperationException), HttpStatusCode.BadRequest},
-        {typeof (JsonReaderException), HttpStatusCode.BadRequest },
         {typeof (KeyNotFoundException), HttpStatusCode.BadRequest },
         {typeof (WebException), HttpStatusCode.BadRequest }
     };
@@ -42,7 +40,7 @@ public class ErrorHandlingMiddleware : IMiddleware
         var response = context.Response;
         response.StatusCode = (int)code;
         response.ContentType = "application/json";
-        await response.WriteAsync(JsonConvert.SerializeObject(new
+        await response.WriteAsync(JsonSerializer.Serialize(new
         {
             error = new
             {

@@ -1,6 +1,4 @@
-﻿using FluentAssertions;
-using Microsoft.AspNetCore.Mvc.Testing;
-using System.Net;
+﻿using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace WebApp.FuncionalTests;
 

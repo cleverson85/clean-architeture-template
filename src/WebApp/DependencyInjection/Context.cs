@@ -1,4 +1,4 @@
-﻿using Application.Interfaces.Base;
+﻿using Domain.Interfaces.Base;
 using Infrastructure.Data;
 using Infrastructure.Data.Options;
 using Microsoft.EntityFrameworkCore;

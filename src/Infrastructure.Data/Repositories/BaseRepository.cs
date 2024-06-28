@@ -1,11 +1,11 @@
-﻿using Application.Interfaces.Base;
-using Domain;
+﻿using Domain;
+using Domain.Interfaces.Base;
 using Infrastructure.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data.Repositories;
 
-public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity, IAggregateRoot
+public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : Entity, IAggregateRoot
 {
     private readonly DbSet<TEntity> _dbSet;
     private readonly Context _context;

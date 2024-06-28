@@ -1,7 +1,7 @@
 ﻿using FluentValidation.Results;
 using System.Text.Json;
 
-namespace Application.Core;
+namespace Application.Core.Contract;
 
 public class CoreOperationResponse : ValidationResult
 {
@@ -13,5 +13,5 @@ public class CoreOperationResponse : ValidationResult
     public void AddError(string errorMessage)
     {
         Errors.Add(new ValidationFailure("error", errorMessage));
-    }    
+    }
 }

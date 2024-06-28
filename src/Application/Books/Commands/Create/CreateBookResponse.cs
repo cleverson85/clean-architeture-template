@@ -1,7 +1,7 @@
-﻿using Application.Core;
+﻿using Application.Core.Contract;
 using Domain.Entities;
 
-namespace Core.Contracts.Response.Books;
+namespace Application.Books.Commands.Create;
 
 public class CreateBookResponse : CoreOperationResponse
 {

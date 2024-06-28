@@ -1,7 +1,10 @@
-﻿namespace Domain.Exceptions;
+﻿using Domain.Exceptions.Base;
 
-public class BookNotFoundException : Exception
+namespace Domain.Exceptions;
+
+public class BookNotFoundException : NotFoundException
 {
-    public BookNotFoundException(string message) : base(message)
+    public BookNotFoundException(Guid id) 
+        : base($"The book with id {id} was not found.")
     { }
 }

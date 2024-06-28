@@ -1,11 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Domain.Enums;
 
 namespace Domain.Entities;
 
-public class Book : BaseEntity, IAggregateRoot
+public class Book : Entity, IAggregateRoot
 {
-    [Required]
     public string Author { get; set; } = string.Empty;
-    [Required]
     public string Title { get; set; } = string.Empty;
+    public BookType Type { get; set; }
 }

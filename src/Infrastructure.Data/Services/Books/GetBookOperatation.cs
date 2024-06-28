@@ -1,8 +1,8 @@
 ﻿using Application.Core.Services;
-using Application.Interfaces.Base;
 using Application.Interfaces.Books;
 using Core.Contracts.Request.Books;
 using Core.Contracts.Response.Books;
+using Domain.Interfaces.Base;
 using Infrastructure.Data.Extensions;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;

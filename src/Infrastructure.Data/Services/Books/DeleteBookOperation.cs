@@ -1,10 +1,10 @@
 ﻿using Application.Core;
 using Application.Core.Services;
-using Application.Interfaces.Base;
 using Application.Interfaces.Books;
 using Core.Contracts.Request.Books;
 using Core.Contracts.Response.Books;
 using Domain.Entities;
+using Domain.Interfaces.Base;
 using FluentValidation.Results;
 using Microsoft.Extensions.Logging;
 

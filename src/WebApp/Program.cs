@@ -1,8 +1,8 @@
-using Application.Middlewares;
 using Infrastructure.Data.Contexts;
 using Serilog;
 using Asp.Versioning.ApiExplorer;
 using WebApp;
+using WebApp.Middlewares;
 
 const string CorsPolicy = "CorsPolicy";
 const string HealthPath = "/health";

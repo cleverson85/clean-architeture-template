@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Data.EntityConfiguration;
 
-public abstract class BaseConfiguration<T> : IEntityTypeConfiguration<T> where T : BaseEntity
+public abstract class BaseConfiguration<T> : IEntityTypeConfiguration<T> where T : Entity
 {
     public void Configure(EntityTypeBuilder<T> builder)
     {

@@ -1,8 +1,6 @@
-﻿using Domain;
+﻿namespace Domain.Interfaces.Base;
 
-namespace Application.Interfaces.Base;
-
-public interface IBaseRepository<TEntity> : IDisposable where TEntity : BaseEntity, IAggregateRoot
+public interface IBaseRepository<TEntity> : IDisposable where TEntity : Entity, IAggregateRoot
 {
     Task<TEntity> SaveAsync(TEntity entity, CancellationToken cancellationToken);
     Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken);

@@ -1,8 +1,8 @@
-﻿using Application.Interfaces.Repository;
+﻿using Domain.Interfaces.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
-namespace Application.Interfaces.Base;
+namespace Domain.Interfaces.Base;
 
 public interface IUnitOfWork
 {
