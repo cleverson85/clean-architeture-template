@@ -35,7 +35,7 @@ public class IntegrationTestWebAppFactory : WebApplicationFactory<Program>, IAsy
 
             services.RemoveAll(typeof(RedisCacheOptions));
             services.AddStackExchangeRedisCache(redisCacheOptions =>
-                redisCacheOptions.Configuration = "localhost:6379");
+                redisCacheOptions.Configuration = _redisContainer.GetConnectionString());
         });
     }
 
